@@ -1,0 +1,61 @@
+//* This file is part of the MOOSE framework
+//* https://www.mooseframework.org
+//*
+//* All rights reserved, see COPYRIGHT for full restrictions
+//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+#include "MyProject1TestApp.h"
+#include "MyProject1App.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+
+InputParameters
+MyProject1TestApp::validParams()
+{
+  InputParameters params = MyProject1App::validParams();
+  return params;
+}
+
+MyProject1TestApp::MyProject1TestApp(InputParameters parameters) : MooseApp(parameters)
+{
+  MyProject1TestApp::registerAll(
+      _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
+}
+
+MyProject1TestApp::~MyProject1TestApp() {}
+
+void
+MyProject1TestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+{
+  MyProject1App::registerAll(f, af, s);
+  if (use_test_objs)
+  {
+    Registry::registerObjectsTo(f, {"MyProject1TestApp"});
+    Registry::registerActionsTo(af, {"MyProject1TestApp"});
+  }
+}
+
+void
+MyProject1TestApp::registerApps()
+{
+  registerApp(MyProject1App);
+  registerApp(MyProject1TestApp);
+}
+
+/***************************************************************************************************
+ *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
+ **************************************************************************************************/
+// External entry point for dynamic application loading
+extern "C" void
+MyProject1TestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+{
+  MyProject1TestApp::registerAll(f, af, s);
+}
+extern "C" void
+MyProject1TestApp__registerApps()
+{
+  MyProject1TestApp::registerApps();
+}
