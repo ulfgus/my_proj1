@@ -39,7 +39,7 @@ PHASE_FIELD                 := yes
 POROUS_FLOW                 := no
 RDG                         := no
 RICHARDS                    := no
-STOCHASTIC_TOOLS            := no
+STOCHASTIC_TOOLS            := yes
 TENSOR_MECHANICS            := no
 XFEM                        := no
 
