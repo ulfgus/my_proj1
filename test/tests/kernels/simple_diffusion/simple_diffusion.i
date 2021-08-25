@@ -28,7 +28,7 @@
     type = DirichletBC
     variable = u
     boundary = right
-    value = 2
+    value = 1
   []
 []
 
